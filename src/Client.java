@@ -61,14 +61,14 @@ public class Client {
 			}
 		try {
 			Thread.sleep(milli);
-		} catch (InterruptedException e1) {} //waiting till everyone is upto speed
+		} catch (InterruptedException e1) {System.out.println("Thread Error");} //waiting till everyone is upto speed
 			if (port > lead) {
 				// now the port is greater so we would need to send
 				// out the signal
 				int vote_to = (int) (9000 + ((Math.random() * total) % lead) + 1); //cannot have 0 as a port
 				try {
 					cl = new Socket("0.0.0.0", vote_to);
-				} catch (IOException e) {}
+				} catch (IOException e) {System.out.println("Client Side Exception");}
 					connect(cl, vote); // this will send out a message 
 					vote = 0;
 				// done with our regular client
@@ -99,7 +99,7 @@ public class Client {
 											socket_connect.close(); socket_input.close();
 											return;
 										}
-									}catch(Exception e){}
+									}catch(Exception e){System.out.println("Inter parsing expection");}
 								}
 								else if(response!=null&&(response.indexOf("leader"))!= -1){
 									//got a message of someone being a leader
@@ -110,7 +110,7 @@ public class Client {
 								if(!socket_connect.isClosed())
 									socket_connect.close();
 						}
-						}catch(Exception e){}
+						}catch(Exception e){System.out.println("SocketServer Creation error");}
 					
 						} 					
 			try {
@@ -138,11 +138,13 @@ public class Client {
 				connect_all(response,socketslist,lead, con);
 			}
 			
+			
+			}
 			if(!cl.isClosed())
 				cl.close();
-				System.out.println(total_message);
-			}
-			}catch(Exception e){}
+			System.out.println(total_message);
+			
+			}catch(Exception e){System.out.println("Round 2 expection");}
 	}
 	
 
