@@ -59,8 +59,8 @@ public class Client {
 				try {
 					cl = new Socket("0.0.0.0", vote_to);
 				} catch (IOException e) {}
-				connect(cl, vote); // this will send out a message 
-				vote = 0;
+					connect(cl, vote); // this will send out a message 
+					vote = 0;
 				// done with our regular client
 				}else{
 					//you create a server, you are leader
@@ -128,8 +128,10 @@ public class Client {
 				//found the leader need to tell all the people
 				connect_all(response,socketslist,lead, con);
 			}
+			
 			if(!cl.isClosed())
 				cl.close();
+				System.out.println(total_message);
 			}
 			}catch(Exception e){}
 	}
@@ -142,12 +144,13 @@ public class Client {
 	 * is where it would be voted to con - is the connection that we have( our
 	 * port)
 	 */
-	public static void connect(Socket client, int vote) {
+	public  void connect(Socket client, int vote) {
 		try {
 			
 			// gotta send the votes in
 			PrintWriter output = new PrintWriter(client.getOutputStream(), true);
 			output.println(vote);
+			total_message++;
 			//done voting
 		} catch (Exception e) {
 			System.out.println("client error");
@@ -158,14 +161,15 @@ public class Client {
 	 * Connect all will notify everyone that has connected to this server about the message
 	 * it has received the leader
 	 * */
-	public static void connect_all(String response, ArrayList<Socket> socketslist, int lead, int con){
+	public  void connect_all(String response, ArrayList<Socket> socketslist, int lead, int con){
 		
 		for(int i =0; socketslist!=null && socketslist.isEmpty()!=true && i<socketslist.size(); i++){
 			PrintWriter out;
 			try {
 				out = new PrintWriter(socketslist.get(i).getOutputStream(),true);
 				out.println(response); 
-				out.close(); 
+				total_message++;
+				
 			} catch (IOException e){System.out.println("Informating Votes Error");}	
 
 		}
@@ -173,11 +177,12 @@ public class Client {
 		for(int i =1; i<=lead; i++){
 			Socket cl;
 			try {
-				cl = new Socket(Integer.toString(con), (9000+lead));
+				cl = new Socket("0.0.0.0", (9000+lead));
 				PrintWriter out;
 				out = new PrintWriter(cl.getOutputStream(),true);
 				out.println(response);
-				cl.close(); out.close();
+				total_message++;
+				
 			} catch (Exception e){System.out.println("Information Leads Error");}
 
 		}
