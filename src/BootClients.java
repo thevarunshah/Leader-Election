@@ -73,8 +73,10 @@ public class BootClients {
 		for(int i = 0; i < numLeaders; i++){
 
 			int leaderNum = random.nextInt(numClients + 1);
+			leaderNum++;
 			while(leaderNums.contains(leaderNum)){
 				leaderNum = random.nextInt(numClients + 1);
+				leaderNum++;
 			}
 			leaderNums.add(leaderNum);
 		}
@@ -97,6 +99,7 @@ public class BootClients {
 			else{
 				port = numLeaders+i;
 			}
+			port++;
 
 			//create and start the client
 			Thread t = new BootThread(port, clientNum);
