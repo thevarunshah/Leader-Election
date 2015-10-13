@@ -48,10 +48,20 @@ public class Client {
 		}
 		
 		//sleep till everyone is at the same point
+	
+		ServerSocket socket_connect = null;	
+		Socket socket_created = null;
+		if(port<=lead){ //creating a socket
+				try {
+					socket_connect = new ServerSocket(con);
+					socket_created = socket_connect.accept();
+				} catch (IOException e) {
+					System.out.println("Creating server error");
+				}
+			}
 		try {
 			Thread.sleep(milli);
 		} catch (InterruptedException e1) {} //waiting till everyone is upto speed
-		
 			if (port > lead) {
 				// now the port is greater so we would need to send
 				// out the signal
@@ -66,14 +76,13 @@ public class Client {
 					//you create a server, you are leader
 						
 					try {
-						ServerSocket socket_connect = new ServerSocket(con);
 						long start_time = System.currentTimeMillis();
 						long last = 10550 + (1000*(port%(1+lead))); //total time it would last, sec max -> depends on highest number leader
 						socket_connect.setSoTimeout((int) last); // how long it should stay
 						while ((System.currentTimeMillis()-start_time)<=last) {	
 						// accepting all the connections made, now lets hear for one if
 							// we are not
-							Socket socket_created = socket_connect.accept();
+							socket_created = socket_connect.accept();
 							socketslist.add(socket_created);//it will add it to the list
 							
 								BufferedReader socket_input = new BufferedReader(new InputStreamReader(socket_created.getInputStream()));
