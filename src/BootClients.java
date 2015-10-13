@@ -17,7 +17,7 @@ public class BootClients {
 	/**
 	 * when to start the election
 	 */
-	static long startTime = System.currentTimeMillis() + (1000*60);
+	static long startTime = System.currentTimeMillis() + (1000*30);
 
 	public static void main(String[] args) {
 
@@ -72,11 +72,9 @@ public class BootClients {
 		//randomly select log base 2 leaders for the initial pool
 		for(int i = 0; i < numLeaders; i++){
 
-			int leaderNum = random.nextInt(numClients + 1);
-			leaderNum++;
+			int leaderNum = random.nextInt(numClients) + 1;
 			while(leaderNums.contains(leaderNum)){
-				leaderNum = random.nextInt(numClients + 1);
-				leaderNum++;
+				leaderNum = random.nextInt(numClients) + 1;
 			}
 			leaderNums.add(leaderNum);
 		}
@@ -99,7 +97,6 @@ public class BootClients {
 			else{
 				port = numLeaders+i;
 			}
-			port++;
 
 			//create and start the client
 			Thread t = new BootThread(port, clientNum);
