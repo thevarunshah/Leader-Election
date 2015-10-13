@@ -186,7 +186,7 @@ public class Client {
 		for(int i =1; i<=lead; i++){
 			Socket cl;
 			try {
-				cl = new Socket("0.0.0.0", (9000+lead));
+				cl = new Socket("0.0.0.0", (9000+i));
 				PrintWriter out;
 				out = new PrintWriter(cl.getOutputStream(),true);
 				out.println(response);
